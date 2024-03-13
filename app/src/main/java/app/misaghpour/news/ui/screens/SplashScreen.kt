@@ -8,6 +8,11 @@ import androidx.compose.material.icons.filled.Newspaper
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
@@ -17,11 +22,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.misaghpour.news.ui.theme.NewsTheme
 import app.misaghpour.news.ui.theme.Purple40
+import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(
+    navigateToNextScreen: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var timerState by rememberSaveable { mutableIntStateOf(3) }
+    LaunchedEffect(key1 = timerState) {
+        delay(3000) // Delay for 3 seconds
+        timerState = 0
+        navigateToNextScreen()
+    }
+
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = Modifier.weight(1f))
         Icon(
@@ -40,6 +54,6 @@ fun SplashScreen(
 @Composable
 fun SplashScreenPreview() {
     NewsTheme {
-        SplashScreen()
+        SplashScreen(navigateToNextScreen = {})
     }
 }
